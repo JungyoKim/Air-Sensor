@@ -1,4 +1,4 @@
-# AIR Monitring
+# AIR Monitoring
 #### 웹사이트 링크
 <a href="https://airmonitoring.netlify.app/"><img src="https://img.shields.io/badge/AIR-MONITORING-F1344?style=flat-square"></img></a>
 ## 설명
