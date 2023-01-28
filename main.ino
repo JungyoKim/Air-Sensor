@@ -4,10 +4,10 @@
 #include <LiquidCrystal_I2C.h>
 #include <DHT.h>
 
-#define WIFI_SSID "honami"
-#define WIFI_PASSWORD "147258369"
-#define DATABASE_URL "https://jungyo-iot-server-default-rtdb.firebaseio.com"
-#define DATABASE_SECRET "xKdHt2fM5tuAYyoiySYE6lWMUnzeo0wa7wFILauL"
+#define WIFI_SSID "WIFI_SSID"
+#define WIFI_PASSWORD "WIFI_PASSWORD"
+#define DATABASE_URL "DATABASE_URL"
+#define DATABASE_SECRET "DATABASE_SECRET"
 
 int cycle = 1000;
 int ckey;
