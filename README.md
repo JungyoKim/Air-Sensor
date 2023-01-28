@@ -1,4 +1,4 @@
-# AIR Monitering
+# AIR Monitring
 
 ## 설명
 ###  기본 동작
