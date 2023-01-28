@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+    <title>공기 모니터링</title>
+</head>
+<body>
+
+</div>
+
+    <div class="justify-center text-center">
+    <ul class="sticky top-0 flex justify-center flex-wrap text-sm text-center">
+        <li>
+            <div class="mr-2 text-2xl p-2 text-slate-900 bg-slate-50 rounded-b-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
+                공기 모니터링
+            </div>
+        </li>
+        <li>
+            <div id="state" class="ml-2 text-2xl pl-2 pr-2 pt-[5.5px] text-slate-900 bg-slate-50 rounded-b-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
+                <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+                <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="hover"></lord-icon>
+            </div>
+        </li>
+    </ul>
+    <div class="flex w-full">
+        <div class="w-full mt-4 ml-4 mr-2 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
+            <div class="sm:flex sm:justify-between">
+            <div>
+            <p class="text-left text-xl">미세먼지</p>
+            <p class="text-left text-sm">「WHO」</p>
+        </div>
+            <p class="text-left text-xl sm:mr-4 sm:mt-4 sm:text-3xl" id="dust">오프라인</p>
+        </div>
+        </div>
+        <div class="w-full mt-4 ml-4 mr-2 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
+            <div class="sm:flex sm:justify-between">
+            <div>
+            <p class="text-left text-xl">불쾌지수</p>
+            <p class="text-left text-sm">「기상청」</p>
+        </div>
+            <p class="text-left text-xl sm:mr-4 sm:mt-4 sm:text-3xl" id="humidify">오프라인</p>
+        </div>
+        </div>
+        <div class="w-full mt-4 ml-4 mr-2 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
+            <div class="sm:flex sm:justify-between">
+            <div>
+            <p class="text-left text-xl">온도</p>
+            <p class="text-left text-sm">「기상청」</p>
+        </div>
+            <p class="text-left text-xl sm:mr-4 sm:mt-4 sm:text-3xl" id="temperature">오프라인</p>
+        </div>
+        </div>
+    </div>
+
+    <div class="mt-4 ml-4 mr-4 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
+        <p class="text-left text-xl">미세먼지 <span id="dustvalue">NULL㎍/㎥</span></p>
+        <div id="dust_progressbar" class="z-0 text-left mt-1 p-3 bg-gray-800 rounded-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
+        </div>
+        <div class="flex justify-between">
+        <p class="mt-1">0㎍/㎥</p>
+        <p class="mt-1 text-slate-50 sm:text-gray-800">37.5㎍/㎥</p>
+        <p class="mt-1">75㎍/㎥</p>
+        <p class="mt-1 text-slate-50 sm:text-gray-800">112.5㎍/㎥</p>
+        <p class="mt-1">150㎍/㎥</p>
+        </div>
+    </div>
+    
+    <div class="mt-4 ml-4 mr-4 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
+        <p class="text-left text-xl">습도 <span id="humivalue">NULL%</span></p>
+        <div id="humidify_progressbar" class="z-0 text-left mt-1 p-3 bg-gray-800 rounded-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
+        </div>
+        <div class="flex justify-between">
+        <p class="mt-1">0%</p>
+        <p class="mt-1">25%</p>
+        <p class="mt-1">50%</p>
+        <p class="mt-1">75%</p>
+        <p class="mt-1">100%</p>
+        </div>
+    </div>
+    <div class="mb-10 mt-4 ml-4 mr-4 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
+        <p class="text-left text-xl">온도 <span id="tempvalue">NULL°C</span></p>
+        <div id="temperature_progressbar" class="z-0 text-left mt-1 p-3 bg-gray-800 rounded-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
+        </div>
+        <div class="flex justify-between">
+        <p class="mt-1">-40°C</p>
+        <p class="mt-1">-20°C</p>
+        <p class="mt-1">0°C</p>
+        <p class="mt-1">20°C</p>
+        <p class="mt-1">40°C</p>
+        </div>
+    </div>
+    <div class="fixed bottom-0 p-1 left-0 right-0 flex-full bg-gray-800 text-md text-slate-50 z-90" style="font-family: 'LINESeedKR-Bd';"><div class="flex justify-between"><div>10608 김준교</div>
+    <button class="justify-right" onclick="location.href='https://www.naver.com'">GITHUB</button>
+    </div>
+
+</div>
+
+    <style>
+    @font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    }
+    
+    #dust_progressbar {
+        width: 0%;
+    }
+    #humidify_progressbar {
+        width: 0%;
+    }
+    #temperature_progressbar {
+        width: 0%;
+    }
+
+    </style>
+    
+    <script type="module">
+        var temp = 0;
+
+        //그래프 초기값 설정
+        var old_dust = 0;
+        var old_humidify = 0;
+        var old_temperature = 0;
+        var graph_speed = 10;
+        var new_ckey = 100;
+        var old_ckey = 0;
+        var time = 5;
+        var state = true;
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+        import { getDatabase ,ref, onValue } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDnxnBQMETtiHIX14MosLyvxy5UuKE6FH0",
+          authDomain: "jungyo-iot-server.firebaseapp.com",
+          databaseURL: "https://jungyo-iot-server-default-rtdb.firebaseio.com",
+          projectId: "jungyo-iot-server",
+          storageBucket: "jungyo-iot-server.appspot.com",
+          messagingSenderId: "697891769932",
+          appId: "1:697891769932:web:093754cfb659fa0b7c2ee9",
+          measurementId: "G-3KRKTSBFJN"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+        const db = getDatabase();
+
+        //미세먼지 데이터 맵핑함수
+        function dust_datamap(dust_map_input){
+            var dust_map_output = (dust_map_input-0)*(100-0)/(150-0)
+            return dust_map_output
+        }
+
+        //습도 데이터 맵핑함수
+        function humidify_datamap(humidify_map_input){
+            var humidify_map_output = (humidify_map_input-0)*(100-0)/(100-0)
+            return humidify_map_output
+        }
+
+        //온도 데이터 맵핑함수
+        function temperature_datamap(temperature_map_input){
+            var temperature_map_output = (temperature_map_input+40)*(100-0)/(80)
+            return temperature_map_output
+        }
+        
+        //불쾌지수 계산 함수
+        function discomfort(temperature,humidity){
+            var discomfort = (1.8*temperature-0.55*(1-humidity)*(1.8*temperature-26))+32
+            return discomfort
+        }
+
+        //미세먼지 데이터 핸들링
+        const dustdata1 = ref(db, 'AIR SENSOR' + '/DUST');
+        onValue(dustdata1, (snapshot) => {
+            const dustdata2 = snapshot.val();
+            dust_graph_updater(dustdata2)
+            dust_indicator_updater(dustdata2)
+        });
+
+        //습도 데이터 핸들링
+        const humidifydata1 = ref(db, 'AIR SENSOR' + '/HUMIDIFY');
+        onValue(humidifydata1, (snapshot) => {
+            const humidifydata2 = snapshot.val();
+            humidify_graph_updater(humidifydata2)
+            humidify_indicator_updater(humidifydata2,temp)
+        });
+
+        //온도 데이터 핸들링
+        const temperaturedata1 = ref(db, 'AIR SENSOR' + '/TEMPERATURE');
+        onValue(temperaturedata1, (snapshot) => {
+            const temperaturedata2 = snapshot.val();
+            temp = temperaturedata2
+            temperature_graph_updater(temperaturedata2)
+            temperature_indicator_updater(temperaturedata2)
+        });
+
+        timer();
+
+        //온,오프라인 체크키 데이터 핸들링
+        const ckey = ref(db, 'AIR SENSOR' + '/CKEY');
+        onValue(ckey, (snapshot) => {
+            time++
+            online();
+        });
+
+        function timer(){
+        setInterval(function() {
+            time--;
+            console.log(time)
+            if (time < 0){
+                time = 5;
+                offline();
+            }
+            if (time > 5){
+                time = 5;
+            }
+        }, 4000)
+        }
+
+        function online(){
+            if(state==true){
+                document.getElementById("state").innerHTML = '<lord-icon src="https://cdn.lordicon.com/vpcmkqzt.json" trigger="hover"></lord-icon>';
+                state=false;
+            }
+        }
+
+        function offline(){
+            if(state==false){
+                document.getElementById("state").innerHTML = '<lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="hover"></lord-icon>';
+                document.getElementById("dust").innerHTML = "오프라인";
+                document.getElementById("dust").style.color="#000000"
+                document.getElementById("humidify").innerHTML = "오프라인";
+                document.getElementById("humidify").style.color="#000000"
+                document.getElementById("temperature").innerHTML = "오프라인";
+                document.getElementById("temperature").style.color="#000000"
+                document.getElementById("dustvalue").innerHTML = 'NULL㎍/㎥';
+                document.getElementById("humivalue").innerHTML = 'NULL%';
+                document.getElementById("tempvalue").innerHTML = 'NULL°C';
+                dust_progressbar.style.width = '0%';
+                humidify_progressbar.style.width = '0%';
+                temperature_progressbar.style.width = '0%';
+                state=true;
+            }
+        }
+
+        function dust_indicator_updater(dustdata){
+            if((dustdata >= 0)&&(dustdata <= 15)){
+                document.getElementById("dust").innerHTML = "최고좋음";
+                document.getElementById("dust").style.color = "#448aff"
+                console.log(dustdata)
+            }
+            else if((dustdata >= 16)&&(dustdata <= 30)){
+            document.getElementById("dust").innerHTML = "좋음";
+            document.getElementById("dust").style.color="#1e96fc"
+            console.log(dustdata)
+            }
+            else if((dustdata >= 31)&&(dustdata <= 40)){
+            document.getElementById("dust").innerHTML = "양호";
+            document.getElementById("dust").style.color="#009688"
+            console.log(dustdata)
+            }
+            else if((dustdata >= 41)&&(dustdata <= 50)){
+            document.getElementById("dust").innerHTML = "보통";
+            document.getElementById("dust").style.color="#8bc34a"
+            console.log(dustdata)
+            }
+            else if((dustdata >= 51)&&(dustdata <= 75)){
+            document.getElementById("dust").innerHTML = "조금나쁨";
+            document.getElementById("dust").style.color="#ffc107"
+            console.log(dustdata)
+            }
+            else if((dustdata >= 76)&&(dustdata <= 100)){
+            document.getElementById("dust").innerHTML = "나쁨";
+            document.getElementById("dust").style.color="#ff9800"
+            console.log(dustdata)
+            }
+            else if((dustdata >= 101)&&(dustdata <= 150)){
+            document.getElementById("dust").innerHTML = "매우나쁨";
+            document.getElementById("dust").style.color="#f44336"
+            console.log(dustdata)
+            }
+            else if(dustdata >= 151){
+            document.getElementById("dust").innerHTML = "최악";
+            document.getElementById("dust").style.color="#ad1457"
+            console.log(dustdata)
+            }
+        };
+
+        //습도 표시창 업데이터
+        function humidify_indicator_updater(humidifydata,temperaturedata){
+            var level = discomfort(humidifydata,temperaturedata)
+            console.log(level)
+            if(level < 68){
+                document.getElementById("humidify").innerHTML = "쾌적";
+                document.getElementById("humidify").style.color="#118ab2"
+                console.log(level)
+            }
+            else if((level >= 68)&&(level < 75)){
+            document.getElementById("humidify").innerHTML = "양호";
+            document.getElementById("humidify").style.color="#06d6a0"
+            console.log(level)
+            }
+            else if((level >= 75)&&(level < 80)){
+            document.getElementById("humidify").innerHTML = "불쾌";
+            document.getElementById("humidify").style.color="#ffd166"
+            console.log(level)
+            }
+            else if(level >= 80){
+            document.getElementById("humidify").innerHTML = "매우불쾌";
+            document.getElementById("humidify").style.color="#ef476f"
+            console.log(level)
+            }
+        };
+
+        //온도 표시창 업데이터
+        function temperature_indicator_updater(temperaturedata){
+            if((temperaturedata >= -40)&&(temperaturedata <= -20)){
+                document.getElementById("temperature").innerHTML = "위험";
+                document.getElementById("temperature").style.color="#448aff"
+                console.log(temperaturedata)
+            }
+            else if((temperaturedata >= -19)&&(temperaturedata <= -10)){
+            document.getElementById("temperature").innerHTML = "약간위험";
+            document.getElementById("temperature").style.color="#1e96fc"
+            console.log(temperaturedata)
+            }
+            else if((temperaturedata >= -9)&&(temperaturedata <= 4)){
+            document.getElementById("temperature").innerHTML = "매우추움";
+            document.getElementById("temperature").style.color="#009688"
+            console.log(temperaturedata)
+            }
+            else if((temperaturedata >= 5)&&(temperaturedata <= 11)){
+            document.getElementById("temperature").innerHTML = "추움";
+            document.getElementById("temperature").style.color="#8bc34a"
+            console.log(temperaturedata)
+            }
+            else if((temperaturedata >= 12)&&(temperaturedata <= 19)){
+            document.getElementById("temperature").innerHTML = "추움";
+            document.getElementById("temperature").style.color="#ff9800"
+            console.log(temperaturedata)
+            }
+            else if((temperaturedata >= 20)&&(temperaturedata <= 25)){
+            document.getElementById("temperature").innerHTML = "따뜻함";
+            document.getElementById("temperature").style.color="#f44336"
+            console.log(temperaturedata)
+            }
+            else if((temperaturedata >= 26)&&(temperaturedata <= 30)){
+            document.getElementById("temperature").innerHTML = "더움";
+            document.getElementById("temperature").style.color="#ad1457"
+            console.log(temperaturedata)
+            }
+            else if((temperaturedata >= 31)&&(temperaturedata <= 40)){
+            document.getElementById("temperature").innerHTML = "매우더움";
+            document.getElementById("temperature").style.color="#ff1970"
+            console.log(temperaturedata)
+            }
+
+        };
+
+        //미세먼지 그래프 업데이터
+        function dust_graph_updater(dust_input){
+            document.getElementById("dustvalue").innerHTML = dust_input + '㎍/㎥';
+            var dust_output = dust_datamap(dust_input)
+            var dust_output_percent = dust_datamap(dust_input) + '%'
+            // //console.log(old_dust)
+            // //console.log(dust_output)      
+            if(old_dust < dust_output){
+            var dustinterval = setInterval(function(){
+                old_dust = old_dust + 1
+                dust_progressbar.style.width = old_dust.toString() + '%';
+                //console.log(old_dust)
+                if(old_dust > dust_output){
+                    clearInterval(dustinterval)
+                    old_dust = dust_output
+                }
+            },graph_speed)}
+            else if(old_dust > dust_output){
+                var dustinterval = setInterval(function(){
+                old_dust = old_dust - 1
+                dust_progressbar.style.width = old_dust.toString() + '%';
+                //console.log(old_dust)
+                if(old_dust < dust_output){
+                    clearInterval(dustinterval)
+                    old_dust = dust_output
+                }
+            },graph_speed)}
+        }
+        
+        //습도 그래프 업데이터
+        function humidify_graph_updater(humidify_input){
+            document.getElementById("humivalue").innerHTML = humidify_input + '%';
+            var humidify_output = humidify_datamap(humidify_input)
+            var humidify_output_percent = humidify_datamap(humidify_input) + '%'
+            //console.log(old_humidify)
+            //console.log(old_humidify)      
+            if(old_humidify < humidify_output){
+            var humidifyinterval = setInterval(function(){
+                old_humidify = old_humidify + 1
+                humidify_progressbar.style.width = old_humidify.toString() + '%';
+                //console.log(old_humidify)
+                if(old_humidify > humidify_output){
+                    clearInterval(humidifyinterval)
+                    old_humidify = humidify_output
+                }
+            },graph_speed)}
+            else if(old_humidify > humidify_output){
+                var humidifyinterval = setInterval(function(){
+                old_humidify = old_humidify - 1
+                humidify_progressbar.style.width = old_humidify.toString() + '%';
+                //console.log(old_humidify)
+                if(old_humidify < humidify_output){
+                    clearInterval(humidifyinterval)
+                    old_humidify = humidify_output
+                }
+            },graph_speed)}
+        }
+
+        //온도 그래프 업데이터
+        function temperature_graph_updater(temperature_input){
+            document.getElementById("tempvalue").innerHTML = temperature_input + '°C';
+            var temperature_output = temperature_datamap(temperature_input)
+            var temperature_output_percent = temperature_datamap(temperature_input) + '%'
+            //console.log(old_temperature)
+            //console.log(temperature_output)      
+            if(old_temperature < temperature_output){
+            var temperatureinterval = setInterval(function(){
+                old_temperature = old_temperature + 1
+                temperature_progressbar.style.width = old_temperature.toString() + '%';
+                //console.log(old_temperature)
+                if(old_temperature > temperature_output){
+                    clearInterval(temperatureinterval)
+                    old_temperature = temperature_output
+                }
+            },graph_speed)}
+            else if(old_temperature > temperature_output){
+                var temperatureinterval = setInterval(function(){
+                old_temperature = old_temperature - 1
+                temperature_progressbar.style.width = old_temperature.toString() + '%';
+                //console.log(old_temperature)
+                if(old_temperature < temperature_output){
+                    clearInterval(temperatureinterval)
+                    old_temperature = temperature_output
+                }
+            },graph_speed)}
+        }
+      </script>
+</body>
+</html>
