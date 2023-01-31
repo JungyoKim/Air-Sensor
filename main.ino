@@ -4,10 +4,10 @@
 #include <LiquidCrystal_I2C.h>
 #include <DHT.h>
 
-#define WIFI_SSID "WIFI_SSID"
-#define WIFI_PASSWORD "WIFI_PASSWORD"
-#define DATABASE_URL "DATABASE_URL"
-#define DATABASE_SECRET "DATABASE_SECRET"
+#define WIFI_SSID "honami"
+#define WIFI_PASSWORD "147258369"
+#define DATABASE_URL "https://jungyo-iot-server-default-rtdb.firebaseio.com"
+#define DATABASE_SECRET "xKdHt2fM5tuAYyoiySYE6lWMUnzeo0wa7wFILauL"
 
 int cycle = 1000;
 int ckey;
@@ -33,6 +33,13 @@ DHT DHTSENSOR(DATAPIN, DHT11);
 const int DUST_PIN = 14;
 
 void setup(){
+  lcd.begin(16,2);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(1,0);
+  lcd.print("AIR-MONITORING");
+  lcd.setCursor(3,1);
+  lcd.print("Booting...");
   Serial.begin(115200);
   pinMode(DUST_PIN, INPUT);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -44,6 +51,13 @@ void setup(){
   Firebase.reconnectWiFi(true);
   Firebase.begin(&config, &auth);
   delay(1000);
+  lcd.clear();
+  lcd.setCursor(1,0);
+  lcd.print("TEMP");
+  lcd.setCursor(6,0);
+  lcd.print("HUMI");
+  lcd.setCursor(11,0);
+  lcd.print("DUST");
 }
 
 void loop(){
@@ -60,13 +74,21 @@ void TemperatureCalc(){
   Temperature = DHTSENSOR.readTemperature(false);
   if(Firebase.RTDB.setInt(&fbdo,"/AIR SENSOR/TEMPERATURE",Temperature) == true) Serial.println("temperature stored in db");  
     else  Serial.println(fbdo.errorReason().c_str());
+  lcd.setCursor(2,1);
+  lcd.print(Temperature,0);
+  lcd.setCursor(6,1);
+  lcd.print(" ");
 }
 
 void HumidityCalc(){
   float Humidity;
   Humidity = DHTSENSOR.readHumidity(false);
-  if(Firebase.RTDB.setInt(&fbdo,"/AIR SENSOR/HUMIDIFY",Humidity) == true) Serial.println("humidity stored in db");  
+  if(Firebase.RTDB.setInt(&fbdo,"/AIR SENSOR/HUMIDITY",Humidity) == true) Serial.println("humidity stored in db");  
     else  Serial.println(fbdo.errorReason().c_str());
+  lcd.setCursor(7,1);
+  lcd.print(Humidity,0);
+  lcd.setCursor(11,1);
+  lcd.print(" ");
 }
 
 void DustCalc(){
@@ -83,11 +105,15 @@ void DustCalc(){
   if(Firebase.RTDB.setInt(&fbdo,"/AIR SENSOR/DUST",dustDensity) == true) Serial.println("dust stored in db");  
     else  Serial.println(fbdo.errorReason().c_str());
     Serial.println(dustDensity);
+    lcd.setCursor(12,1);
+    lcd.print(dustDensity,0);
+    lcd.setCursor(16,1);
+    lcd.print(" ");
 }
 
 void checker(){
   ckey = random(10000, 99999);
   if(Firebase.RTDB.setInt(&fbdo,"/AIR SENSOR/CKEY",ckey) == true) Serial.println("ckey stored in db");  
     else  Serial.println(fbdo.errorReason().c_str());
-    Serial.println(ckey);
+    Serial.println(ckey,0);
 }
