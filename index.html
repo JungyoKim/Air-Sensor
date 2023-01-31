@@ -42,7 +42,7 @@
             <p class="text-left text-xl">불쾌지수</p>
             <p class="text-left text-sm">「기상청」</p>
         </div>
-            <p class="text-left text-xl sm:mr-4 sm:mt-4 sm:text-3xl" id="humidify">오프라인</p>
+            <p class="text-left text-xl sm:mr-4 sm:mt-4 sm:text-3xl" id="humidity">오프라인</p>
         </div>
         </div>
         <div class="w-full mt-4 ml-4 mr-2 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
@@ -71,7 +71,7 @@
     
     <div class="mt-4 ml-4 mr-4 p-3 bg-slate-50 rounded-2xl shadow-lg text-gray-800" style="font-family: 'LINESeedKR-Bd';" >
         <p class="text-left text-xl">습도 <span id="humivalue">NULL%</span></p>
-        <div id="humidify_progressbar" class="z-0 text-left mt-1 p-3 bg-gray-800 rounded-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
+        <div id="humidity_progressbar" class="z-0 text-left mt-1 p-3 bg-gray-800 rounded-2xl shadow-lg" style="font-family: 'LINESeedKR-Bd';" >
         </div>
         <div class="flex justify-between">
         <p class="mt-1">0%</p>
@@ -94,7 +94,7 @@
         </div>
     </div>
     <div class="fixed bottom-0 p-1 left-0 right-0 flex-full bg-gray-800 text-md text-slate-50 z-90" style="font-family: 'LINESeedKR-Bd';"><div class="flex justify-between"><div>10608 김준교</div>
-    <button class="justify-right" onclick="location.href='https://www.naver.com'">GITHUB</button>
+    <button class="justify-right" onclick="location.href='https://github.com/JungyoKim/Air-Monitoring'">GITHUB</button>
     </div>
 
 </div>
@@ -110,7 +110,7 @@
     #dust_progressbar {
         width: 0%;
     }
-    #humidify_progressbar {
+    #humidity_progressbar {
         width: 0%;
     }
     #temperature_progressbar {
@@ -124,7 +124,7 @@
 
         //그래프 초기값 설정
         var old_dust = 0;
-        var old_humidify = 0;
+        var old_humidity = 0;
         var old_temperature = 0;
         var graph_speed = 10;
         var new_ckey = 100;
@@ -137,7 +137,14 @@
         import { getDatabase ,ref, onValue } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-database.js";
 
         const firebaseConfig = {
-          //firebase config
+          apiKey: "AIzaSyDnxnBQMETtiHIX14MosLyvxy5UuKE6FH0",
+          authDomain: "jungyo-iot-server.firebaseapp.com",
+          databaseURL: "https://jungyo-iot-server-default-rtdb.firebaseio.com",
+          projectId: "jungyo-iot-server",
+          storageBucket: "jungyo-iot-server.appspot.com",
+          messagingSenderId: "697891769932",
+          appId: "1:697891769932:web:093754cfb659fa0b7c2ee9",
+          measurementId: "G-3KRKTSBFJN"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -152,9 +159,9 @@
         }
 
         //습도 데이터 맵핑함수
-        function humidify_datamap(humidify_map_input){
-            var humidify_map_output = (humidify_map_input-0)*(100-0)/(100-0)
-            return humidify_map_output
+        function humidity_datamap(humidity_map_input){
+            var humidity_map_output = (humidity_map_input-0)*(100-0)/(100-0)
+            return humidity_map_output
         }
 
         //온도 데이터 맵핑함수
@@ -178,11 +185,11 @@
         });
 
         //습도 데이터 핸들링
-        const humidifydata1 = ref(db, 'AIR SENSOR' + '/HUMIDIFY');
-        onValue(humidifydata1, (snapshot) => {
-            const humidifydata2 = snapshot.val();
-            humidify_graph_updater(humidifydata2)
-            humidify_indicator_updater(humidifydata2,temp)
+        const humiditydata1 = ref(db, 'AIR SENSOR' + '/HUMIDITY');
+        onValue(humiditydata1, (snapshot) => {
+            const humiditydata2 = snapshot.val();
+            humidity_graph_updater(humiditydata2)
+            humidity_indicator_updater(humiditydata2,temp)
         });
 
         //온도 데이터 핸들링
@@ -229,15 +236,15 @@
                 document.getElementById("state").innerHTML = '<lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="hover"></lord-icon>';
                 document.getElementById("dust").innerHTML = "오프라인";
                 document.getElementById("dust").style.color="#000000"
-                document.getElementById("humidify").innerHTML = "오프라인";
-                document.getElementById("humidify").style.color="#000000"
+                document.getElementById("humidity").innerHTML = "오프라인";
+                document.getElementById("humidity").style.color="#000000"
                 document.getElementById("temperature").innerHTML = "오프라인";
                 document.getElementById("temperature").style.color="#000000"
                 document.getElementById("dustvalue").innerHTML = 'NULL㎍/㎥';
                 document.getElementById("humivalue").innerHTML = 'NULL%';
                 document.getElementById("tempvalue").innerHTML = 'NULL°C';
                 dust_progressbar.style.width = '0%';
-                humidify_progressbar.style.width = '0%';
+                humidity_progressbar.style.width = '0%';
                 temperature_progressbar.style.width = '0%';
                 state=true;
             }
@@ -287,27 +294,27 @@
         };
 
         //습도 표시창 업데이터
-        function humidify_indicator_updater(humidifydata,temperaturedata){
-            var level = discomfort(humidifydata,temperaturedata)
+        function humidity_indicator_updater(humiditydata,temperaturedata){
+            var level = discomfort(humiditydata,temperaturedata)
             console.log(level)
             if(level < 68){
-                document.getElementById("humidify").innerHTML = "쾌적";
-                document.getElementById("humidify").style.color="#118ab2"
+                document.getElementById("humidity").innerHTML = "쾌적";
+                document.getElementById("humidity").style.color="#118ab2"
                 console.log(level)
             }
             else if((level >= 68)&&(level < 75)){
-            document.getElementById("humidify").innerHTML = "양호";
-            document.getElementById("humidify").style.color="#06d6a0"
+            document.getElementById("humidity").innerHTML = "양호";
+            document.getElementById("humidity").style.color="#06d6a0"
             console.log(level)
             }
             else if((level >= 75)&&(level < 80)){
-            document.getElementById("humidify").innerHTML = "불쾌";
-            document.getElementById("humidify").style.color="#ffd166"
+            document.getElementById("humidity").innerHTML = "불쾌";
+            document.getElementById("humidity").style.color="#ffd166"
             console.log(level)
             }
             else if(level >= 80){
-            document.getElementById("humidify").innerHTML = "매우불쾌";
-            document.getElementById("humidify").style.color="#ef476f"
+            document.getElementById("humidity").innerHTML = "매우불쾌";
+            document.getElementById("humidity").style.color="#ef476f"
             console.log(level)
             }
         };
@@ -387,30 +394,30 @@
         }
         
         //습도 그래프 업데이터
-        function humidify_graph_updater(humidify_input){
-            document.getElementById("humivalue").innerHTML = humidify_input + '%';
-            var humidify_output = humidify_datamap(humidify_input)
-            var humidify_output_percent = humidify_datamap(humidify_input) + '%'
-            //console.log(old_humidify)
-            //console.log(old_humidify)      
-            if(old_humidify < humidify_output){
-            var humidifyinterval = setInterval(function(){
-                old_humidify = old_humidify + 1
-                humidify_progressbar.style.width = old_humidify.toString() + '%';
-                //console.log(old_humidify)
-                if(old_humidify > humidify_output){
-                    clearInterval(humidifyinterval)
-                    old_humidify = humidify_output
+        function humidity_graph_updater(humidity_input){
+            document.getElementById("humivalue").innerHTML = humidity_input + '%';
+            var humidity_output = humidity_datamap(humidity_input)
+            var humidity_output_percent = humidity_datamap(humidity_input) + '%'
+            //console.log(old_humidity)
+            //console.log(old_humidity)      
+            if(old_humidity < humidity_output){
+            var humidityinterval = setInterval(function(){
+                old_humidity = old_humidity + 1
+                humidity_progressbar.style.width = old_humidity.toString() + '%';
+                //console.log(old_humidity)
+                if(old_humidity > humidity_output){
+                    clearInterval(humidityinterval)
+                    old_humidity = humidity_output
                 }
             },graph_speed)}
-            else if(old_humidify > humidify_output){
-                var humidifyinterval = setInterval(function(){
-                old_humidify = old_humidify - 1
-                humidify_progressbar.style.width = old_humidify.toString() + '%';
-                //console.log(old_humidify)
-                if(old_humidify < humidify_output){
-                    clearInterval(humidifyinterval)
-                    old_humidify = humidify_output
+            else if(old_humidity > humidity_output){
+                var humidityinterval = setInterval(function(){
+                old_humidity = old_humidity - 1
+                humidity_progressbar.style.width = old_humidity.toString() + '%';
+                //console.log(old_humidity)
+                if(old_humidity < humidity_output){
+                    clearInterval(humidityinterval)
+                    old_humidity = humidity_output
                 }
             },graph_speed)}
         }
